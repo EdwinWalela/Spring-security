@@ -4,17 +4,17 @@ server:
     include-binding-errors: always
 spring:
   datasource:
-    password:
-    url: jdbc:postgresql://localhost:5432/registration
-    username:
+    password: demo
+    url: jdbc:postgresql://localhost:5432/demo?sslmode=disable
+    username: demo
   jpa:
     hibernate:
-      ddl-auto: create-frop
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-      show-sql: true
+    show-sql: true
   mail:
     host: localhost
     port: 1025
