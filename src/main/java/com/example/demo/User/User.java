@@ -3,20 +3,63 @@ package com.example.demo.User;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+@Entity
+@Table(name = "users")
 public class User implements UserDetails  {
+
+  @Id
+  @SequenceGenerator(
+    name = "user_sequence",
+    sequenceName = "user_sequence",
+    allocationSize = 1
+  )
+
+  @GeneratedValue(
+    strategy = GenerationType.SEQUENCE,
+    generator = "user_sequence"
+  )
 
   private Long id;
   private String name;
   private String username;
   private String email;
   private String password;
+  @Enumerated(EnumType.STRING)
   private UserRole role;
   private Boolean locked;
   private Boolean enabled;
+
+  public User(String name, String username, String email, String password, UserRole role, Boolean locked, Boolean enabled){
+    this.name = name;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.role = role;
+    this.locked = locked;
+    this.enabled = enabled;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -27,38 +70,32 @@ public class User implements UserDetails  {
 
   @Override
   public String getPassword() {
-    // TODO Auto-generated method stub
-    return null;
+    return password;
   }
 
   @Override
   public String getUsername() {
-    // TODO Auto-generated method stub
-    return null;
+    return username;
   }
 
   @Override
   public boolean isAccountNonExpired() {
-    // TODO Auto-generated method stub
-    return false;
+    return true; // Not implemented
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    // TODO Auto-generated method stub
-    return false;
+    return !locked;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    // TODO Auto-generated method stub
-    return false;
+    return true; // Not implemented
   }
 
   @Override
-  public boolean isEnabled() {
-    // TODO Auto-generated method stub
-    return false;
+  public boolean isEnabled() { 
+    return enabled;
   }
   
 }
