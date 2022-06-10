@@ -1,8 +1,10 @@
 package com.example.demo.User;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class User implements UserDetails  {
@@ -18,8 +20,9 @@ public class User implements UserDetails  {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    // TODO Auto-generated method stub
-    return null;
+    SimpleGrantedAuthority authority = 
+        new SimpleGrantedAuthority(role.name());
+    return Collections.singletonList(authority);
   }
 
   @Override
